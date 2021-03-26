@@ -77,7 +77,7 @@ table.cart img {
 }
 
 tbody td.num {
-    text-align:right;
+    /* text-align:right; */
 }
 
 td input[type="submit"] {
@@ -193,8 +193,11 @@ ul.errorlist {
 }
 
 .product-list .item img {
+    height: 200px;
     width:100%;
     margin-bottom:8px;
+    object-fit:cover;
+   object-position:50% 50%;
 }
 
 .product-detail {
