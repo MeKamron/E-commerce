@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
+
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -41,11 +44,15 @@ INSTALLED_APPS = [
     'cart.apps.CartConfig',
     'orders.apps.OrdersConfig',
     'payment.apps.PaymentConfig',
+    'coupons.apps.CouponsConfig',
+    'rosetta',
+    'parler',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -108,7 +115,24 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+from django.utils.translation import gettext_lazy as _
+
+LANGUAGE_CODE = 'en'
+LANGUAGES = (
+    ('en', _('English')),
+    ('es', _('Spanish')),
+)
+
+PARLER_LANGUAGES = {
+    None: (
+        {'code': 'en'},
+        {'code': 'es'},
+    ),
+    'default': {
+        'fallback': 'en',
+        'hide_untranslated': False,
+    }
+}
 
 TIME_ZONE = 'UTC'
 
@@ -118,11 +142,15 @@ USE_L10N = True
 
 USE_TZ = True
 
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale/'),
+)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
@@ -133,7 +161,7 @@ CART_SESSION_ID = 'cart'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'kamronbek1709@gmail.com'
+EMAIL_HOST_USER = 'kamronbek.abdumannonov.uz@gmail.com'
 EMAIL_HOST_PASSWORD = 'Mikki17082000'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
@@ -151,3 +179,7 @@ BRAINTREE_CONF = braintree.Configuration(
     BRAINTREE_PUBLIC_KEY,
     BRAINTREE_PRIVATE_KEY
 )
+
+REDIS_HOST = 'localhost'
+REDIS_PORT = 6379
+REDIS_DB = 1
